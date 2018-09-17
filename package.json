@@ -1,0 +1,25 @@
+{
+  "name": "grrypto",
+  "version": "1.0.0",
+  "description": "Crypto functions implemented in JavaScript",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geraintanderson/grrypto.git"
+  },
+  "author": "Geraint Anderson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/geraintanderson/grrypto/issues"
+  },
+  "homepage": "https://github.com/geraintanderson/grrypto#readme",
+  "dependencies": {
+    "jasmine": "^3.2.0"
+  }
+}
