@@ -45,6 +45,36 @@ class CaesarCipher {
     .join('')
   }
 
+  crack (ciphertext) {
+    let maxCounter = 0;
+    return this.characters.reduce((results, current, index) => {
+      const decrypter = this._charShifter(this.characters, index, -1)
+      let counter = 0
+
+      const decrypted = ciphertext
+      .split('')
+      .map(decrypter)
+      .join('')
+
+      decrypted
+      .toLowerCase()
+      .split(' ')
+      .forEach(word => this.wordList.includes(word) ? counter++ : false)
+
+      console.log('--- counter')
+      console.log(counter)
+      console.log(decrypted)
+      results.fa[index] = counter
+      if (maxCounter < counter) {
+        results.decrypted = decrypted
+      }
+
+      console.log('---------------')
+      console.log(results)
+      return results
+    }, {fa: {}})
+  }
+
   _charShifter (charset, key, direction) {
     // Direction must be 1 for forwards (encrypt) or -1 for backwards (decrypt)
     return function (char) {

@@ -44,9 +44,9 @@ describe('CaesarCipher', function () {
       expect(ciphertext).toBe('Vybow szcew nyvyb csd kwod, myxcomdodeb knszscmsxq ovsd. Odskw zybddsdyb xscv con wkhswec ovospoxn.')
 
       caesarCipher.setKey(30)
-      plaintext = 'All the world ‘s a stage, and all the men and women merely players. They have their exits and their entrances; And one man in his time plays many parts.'
+      plaintext = 'All the world‘s a stage, and all the men and women merely players. They have their exits and their entrances; And one man in his time plays many parts.'
       ciphertext = caesarCipher.encrypt(plaintext)
-      expect(ciphertext).toBe('Epp xli asvph ‘w e wxeki, erh epp xli qir erh asqir qivipc tpecivw. Xlic lezi xlimv ibmxw erh xlimv irxvergiw; Erh sri qer mr lmw xmqi tpecw qerc tevxw.')
+      expect(ciphertext).toBe('Epp xli asvph‘w e wxeki, erh epp xli qir erh asqir qivipc tpecivw. Xlic lezi xlimv ibmxw erh xlimv irxvergiw; Erh sri qer mr lmw xmqi tpecw qerc tevxw.')
     })
   })
 
@@ -63,9 +63,48 @@ describe('CaesarCipher', function () {
       expect(plaintext).toBe('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porttitor nisl sed maximus eleifend.')
 
       caesarCipher.setKey(30)
-      var ciphertext = 'Epp xli asvph ‘w e wxeki, erh epp xli qir erh asqir qivipc tpecivw. Xlic lezi xlimv ibmxw erh xlimv irxvergiw; Erh sri qer mr lmw xmqi tpecw qerc tevxw.'
+      var ciphertext = 'Epp xli asvph‘w e wxeki, erh epp xli qir erh asqir qivipc tpecivw. Xlic lezi xlimv ibmxw erh xlimv irxvergiw; Erh sri qer mr lmw xmqi tpecw qerc tevxw.'
       var plaintext = caesarCipher.decrypt(ciphertext)
-      expect(plaintext).toBe('All the world ‘s a stage, and all the men and women merely players. They have their exits and their entrances; And one man in his time plays many parts.')
+      expect(plaintext).toBe('All the world‘s a stage, and all the men and women merely players. They have their exits and their entrances; And one man in his time plays many parts.')
+    })
+  })
+
+  describe('crack', function () {
+    it('should return a frequency analysis of all available keys with the most likely decryption', function () {
+      var caesarCipher = new CaesarCipher({ key: 4 })
+      var ciphertext = 'Epp xli asvph‘w e wxeki, erh epp xli qir erh asqir qivipc tpecivw. Xlic lezi xlimv ibmxw erh xlimv irxvergiw; Erh sri qer mr lmw xmqi tpecw qerc tevxw.'
+      var results = caesarCipher.crack(ciphertext)
+      expect(results).toEqual({
+        fa: {
+          0: 0,
+          1: 0,
+          2: 0,
+          3: 0,
+          4: 17,
+          5: 0,
+          6: 0,
+          7: 0,
+          8: 0,
+          9: 0,
+          10: 0,
+          11: 0,
+          12: 0,
+          13: 0,
+          14: 0,
+          15: 0,
+          16: 0,
+          17: 0,
+          18: 0,
+          19: 0,
+          20: 0,
+          21: 0,
+          22: 0,
+          23: 0,
+          24: 0,
+          25: 0
+        },
+        decrypted: 'All the world‘s a stage, and all the men and women merely players. They have their exits and their entrances; And one man in his time plays many parts.'
+      })
     })
   })
 })
