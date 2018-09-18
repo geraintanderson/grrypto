@@ -6,6 +6,8 @@ class CaesarCipher {
     // Define an array of the top 100 words used in the English Language
     this.wordList = ['the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'I', 'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at', 'this', 'but', 'his', 'by', 'from', 'they', 'we', 'say', 'her', 'she', 'or', 'an', 'will', 'my', 'one', 'all', 'would', 'there', 'their', 'what', 'so', 'up', 'out', 'if', 'about', 'who', 'get', 'which', 'go', 'me', 'when', 'make', 'can', 'like', 'time', 'no', 'just', 'him', 'know', 'take', 'people', 'into', 'year', 'your', 'good', 'some', 'could', 'them', 'see', 'other', 'than', 'then', 'now', 'look', 'only', 'come', 'its', 'over', 'think', 'also', 'back', 'after', 'use', 'two', 'how', 'our', 'work', 'first', 'well', 'way', 'even', 'new', 'want', 'because', 'any', 'these', 'give', 'day', 'most', 'us']
 
+    // this._shiftChar = this._shiftChar.bind(this)
+
     if (config.hasOwnProperty('key')) {
       this.setKey(config.key)
     }
@@ -23,40 +25,34 @@ class CaesarCipher {
     if (typeof plaintext !== 'string') {
       throw new Error('The plaintext must be a string')
     }
-    const ciphertext = plaintext
+
+    const encrypter = this._charShifter(this.characters, this.key, 1)
+    return plaintext
     .split('')
-    .map(char => {
-      const lowerCase = char === char.toLowerCase()
-      const charIndex = this.characters.indexOf(char.toLowerCase())
-      let encryptedChar
-      if (charIndex > -1) {
-        encryptedChar = this.characters[(charIndex + this.key) % this.characters.length]
-      } else {
-         encryptedChar = char
-      }
-
-      if (lowerCase) {
-        return encryptedChar
-      } else {
-        return encryptedChar.toUpperCase()
-      }
-    })
-
-    return ciphertext.join('')
+    .map(encrypter)
+    .join('')
   }
 
   decrypt (ciphertext) {
     if (typeof ciphertext !== 'string') {
       throw new Error('The ciphertext must be a string')
     }
-    const plaintext = ciphertext
+
+    const decrypter = this._charShifter(this.characters, this.key, -1)
+    return ciphertext
     .split('')
-    .map(char => {
+    .map(decrypter)
+    .join('')
+  }
+
+  _charShifter (charset, key, direction) {
+    // Direction must be 1 for forwards (encrypt) or -1 for backwards (decrypt)
+    return function (char) {
       const lowerCase = char === char.toLowerCase()
-      const charIndex = this.characters.indexOf(char.toLowerCase())
+      const charIndex = charset.indexOf(char.toLowerCase())
       let encryptedChar
       if (charIndex > -1) {
-        encryptedChar = this.characters[(this.characters.length + charIndex - this.key) % this.characters.length]
+        encryptedChar = charset[(charset.length + charIndex + key * direction) % charset.length]
       } else {
          encryptedChar = char
       }
@@ -66,9 +62,7 @@ class CaesarCipher {
       } else {
         return encryptedChar.toUpperCase()
       }
-    })
-
-    return plaintext.join('')
+    }
   }
 }
 
