@@ -66,6 +66,7 @@ class CaesarCipher {
       console.log(decrypted)
       results.fa[index] = counter
       if (maxCounter < counter) {
+        results.key = index
         results.decrypted = decrypted
       }
 

@@ -71,10 +71,11 @@ describe('CaesarCipher', function () {
 
   describe('crack', function () {
     it('should return a frequency analysis of all available keys with the most likely decryption', function () {
-      var caesarCipher = new CaesarCipher({ key: 4 })
+      var caesarCipher = new CaesarCipher({ key: 4 }) // XXX We don't need a key here...
       var ciphertext = 'Epp xli asvph‘w e wxeki, erh epp xli qir erh asqir qivipc tpecivw. Xlic lezi xlimv ibmxw erh xlimv irxvergiw; Erh sri qer mr lmw xmqi tpecw qerc tevxw.'
       var results = caesarCipher.crack(ciphertext)
       expect(results).toEqual({
+        key: 4,
         fa: {
           0: 0,
           1: 0,
